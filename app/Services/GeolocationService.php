@@ -15,7 +15,7 @@ class GeolocationService
     public function getCountryFromIp(string $ip): ?string
     {
         // API kulcs az ipstack szolgáltatáshoz (regisztrálj itt: https://ipstack.com/)
-        $apiKey = '91d9e139-b687-4e81-9438-c8dbc81864d8';
+        $apiKey = env('IPSTACK_API_KEY');
 
         // API hívás az ipstack-hez
         $response = Http::get("http://api.ipstack.com/{$ip}?access_key={$apiKey}");
