@@ -1,0 +1,45 @@
+[90m= [39m[34;4mIlluminate\Database\Eloquent\Collection[39;24m {#7612
+    [34mall[39m: [
+      [34;4mLunar\Models\Product[39;24m {#7613
+        [34mid[39m: [35m1[39m,
+        [34mproduct_type_id[39m: [35m2[39m,
+        [34mstatus[39m: "[32mpublished[39m",
+        [34mattribute_data[39m: "[32m{"name":{"field_type":"Lunar\\FieldTypes\\TranslatedText","value":{"en":"Tokaji Furmint, dry"}},"description":{"field_type":"Lunar\\FieldTypes\\TranslatedText","value":{"en":"<p>&nbsp;A Hungarian classic, this wine offers a complex blend of minerality, fruitiness, and a hint of spice.&nbsp;<\/p>"}}}[39m",
+        [34mcreated_at[39m: "[32m2024-12-06 07:45:01[39m",
+        [34mupdated_at[39m: "[32m2024-12-06 07:49:45[39m",
+        [34mdeleted_at[39m: [36mnull[39m,
+        [34mbrand_id[39m: [36mnull[39m,
+      },
+      [34;4mLunar\Models\Product[39;24m {#7614
+        [34mid[39m: [35m2[39m,
+        [34mproduct_type_id[39m: [35m2[39m,
+        [34mstatus[39m: "[32mpublished[39m",
+        [34mattribute_data[39m: "[32m{"name":{"field_type":"Lunar\\FieldTypes\\TranslatedText","value":{"en":"Sauvignon Blanc, New Zealand, Marlborough"}},"description":{"field_type":"Lunar\\FieldTypes\\TranslatedText","value":{"en":"<p>&nbsp;Crisp and refreshing, this Sauvignon Blanc bursts with citrus and gooseberry flavors.&nbsp;<\/p>"}}}[39m",
+        [34mcreated_at[39m: "[32m2024-12-06 10:41:52[39m",
+        [34mupdated_at[39m: "[32m2024-12-06 10:43:14[39m",
+        [34mdeleted_at[39m: [36mnull[39m,
+        [34mbrand_id[39m: [36mnull[39m,
+      },
+      [34;4mLunar\Models\Product[39;24m {#7616
+        [34mid[39m: [35m3[39m,
+        [34mproduct_type_id[39m: [35m2[39m,
+        [34mstatus[39m: "[32mpublished[39m",
+        [34mattribute_data[39m: "[32m{"name":{"field_type":"Lunar\\FieldTypes\\TranslatedText","value":{"en":"Chardonnay, France, Burgundy"}},"description":{"field_type":"Lunar\\FieldTypes\\TranslatedText","value":{"en":"<p>&nbsp;A full-bodied and elegant Chardonnay with buttery notes, hazelnut aromas, and a long finish.&nbsp;<\/p>"}}}[39m",
+        [34mcreated_at[39m: "[32m2024-12-06 10:46:11[39m",
+        [34mupdated_at[39m: "[32m2024-12-06 10:47:37[39m",
+        [34mdeleted_at[39m: [36mnull[39m,
+        [34mbrand_id[39m: [36mnull[39m,
+      },
+      [34;4mLunar\Models\Product[39;24m {#7619
+        [34mid[39m: [35m4[39m,
+        [34mproduct_type_id[39m: [35m2[39m,
+        [34mstatus[39m: "[32mpublished[39m",
+        [34mattribute_data[39m: "[32m{"name":{"field_type":"Lunar\\FieldTypes\\TranslatedText","value":{"en":"Riesling, Germany, Mosel"}}}[39m",
+        [34mcreated_at[39m: "[32m2024-12-06 10:48:33[39m",
+        [34mupdated_at[39m: "[32m2024-12-06 10:49:11[39m",
+        [34mdeleted_at[39m: [36mnull[39m,
+        [34mbrand_id[39m: [36mnull[39m,
+      },
+    ],
+  }
+
