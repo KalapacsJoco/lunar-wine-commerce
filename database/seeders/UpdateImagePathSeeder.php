@@ -15,10 +15,10 @@ class UpdateImagePathSeeder extends Seeder
     public function run()
     {
         $products = [
-            1 => 'storage/1/tokaji_furmint.jpg',
-            2 => 'storage/2/sauvignon_blanc.jpg',
-            3 => 'storage/3/chardonnay.jpg',
-            4 => 'storage/4/riesling.jpg',
+            5 => 'storage/5/cabernet_sauvignon.jpg',
+            6 => 'storage/6/pinot_noir.jpg',
+            7 => 'storage/7/merlot.jpg',
+            8 => 'storage/8/syrah.jpg',
         ];
 
         foreach ($products as $id => $imagePath) {
