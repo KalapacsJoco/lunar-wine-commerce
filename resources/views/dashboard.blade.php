@@ -23,15 +23,18 @@
                                 <h3 class="text-xl font-bold text-gray-800 mb-2">{{ $product->translateAttribute('name') }}</h3>
                                 <p class="text-gray-600 mb-2">{!! $product->translateAttribute('description') !!}</p>
                                 @if ($product->variants->count() > 1)
-                                <p class="text-gray-600 font-semibold mb-2">Available Sizes:</p>
-                                <ul class="mb-4">
+                                <p class="text-gray-600 font-semibold mb-2">Select Size:</p>
+                                <select id="variant-{{ $product->id }}" class="w-full border-gray-300 rounded-lg p-2" onchange="updatePrice(this, '{{ $product->id }}')">
                                     @foreach ($product->variants as $variant)
-                                    <li class="text-gray-700">
-                                        Size: {{ json_decode($variant->values->first()?->name)->en ?? 'N/A' }} -
-                                        Price: ${{ $variant->prices->first()?->price->value / 100 ?? 'N/A' }}
-                                    </li>
+                                    <option value="{{ $variant->id }}" data-price="{{ $variant->prices->first()?->price->value / 100 ?? '0' }}" {{ $loop->first ? 'selected' : '' }}>
+                                        {{ json_decode($variant->values->first()?->name)->en ?? 'N/A' }}
+                                    </option>
                                     @endforeach
-                                </ul>
+                                </select>
+
+                                <p id="price-{{ $product->id }}" class="text-lg font-bold text-green-600 mt-4">
+                                    Price: ${{ $product->variants->first()?->prices->first()?->price->value / 100 ?? 'N/A' }}
+                                </p>
                                 @else
                                 <p class="text-lg font-bold text-green-600">Price: ${{ $product->variants->first()?->prices->first()?->price->value / 100 ?? 'N/A' }}</p>
                                 @endif
@@ -44,4 +47,13 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function updatePrice(select, productId) {
+            const selectedOption = select.options[select.selectedIndex];
+            const price = selectedOption.getAttribute('data-price');
+            const priceElement = document.getElementById(`price-${productId}`);
+            priceElement.textContent = `Price: $${price}`;
+        }
+    </script>
 </x-app-layout>

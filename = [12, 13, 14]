@@ -1,0 +1,14 @@
+[90m= [39m[34;4mLunar\Models\Collection[39;24m {#7601
+    [34mid[39m: [35m3[39m,
+    [34mcollection_group_id[39m: [35m2[39m,
+    [34m_lft[39m: [35m5[39m,
+    [34m_rgt[39m: [35m6[39m,
+    [34mparent_id[39m: [36mnull[39m,
+    [34mtype[39m: "[32mstatic[39m",
+    [34mattribute_data[39m: "[32m{"name":{"field_type":"Lunar\\FieldTypes\\TranslatedText","value":{"en":"Rose"}}}[39m",
+    [34msort[39m: "[32mcustom[39m",
+    [34mcreated_at[39m: "[32m2024-12-06 08:29:17[39m",
+    [34mupdated_at[39m: "[32m2024-12-06 10:38:28[39m",
+    [34mdeleted_at[39m: [36mnull[39m,
+  }
+
