@@ -4,10 +4,13 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Lunar\Models\Product;
+use App\Livewire\Cart;
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/cart', Cart::class)->name('cart');
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 

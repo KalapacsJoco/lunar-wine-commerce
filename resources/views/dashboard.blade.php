@@ -15,30 +15,27 @@
                         Categories: {{ json_decode($collection->attribute_data)->name->en ?? 'N/A' }}
                     </h2>
 
-                    <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    <ul>
                         @foreach ($collection->products as $product)
-                        <li class="bg-white rounded-lg shadow-md overflow-hidden">
-                            <img src="{{ asset($product->image_path) }}" alt="{{ $product->translateAttribute('name') }}" class="w-full h-64 object-cover">
-                            <div class="p-4">
-                                <h3 class="text-xl font-bold text-gray-800 mb-2">{{ $product->translateAttribute('name') }}</h3>
-                                <p class="text-gray-600 mb-2">{!! $product->translateAttribute('description') !!}</p>
-                                @if ($product->variants->count() > 1)
-                                <p class="text-gray-600 font-semibold mb-2">Select Size:</p>
-                                <select id="variant-{{ $product->id }}" class="w-full border-gray-300 rounded-lg p-2" onchange="updatePrice(this, '{{ $product->id }}')">
-                                    @foreach ($product->variants as $variant)
-                                    <option value="{{ $variant->id }}" data-price="{{ $variant->prices->first()?->price->value / 100 ?? '0' }}" {{ $loop->first ? 'selected' : '' }}>
-                                        {{ json_decode($variant->values->first()?->name)->en ?? 'N/A' }}
-                                    </option>
-                                    @endforeach
-                                </select>
+                        <li>
+                            <!-- Termékkép -->
+                            <img src="{{ asset($product->image_path) }}" alt="{{ $product->translateAttribute('name') }}">
 
-                                <p id="price-{{ $product->id }}" class="text-lg font-bold text-green-600 mt-4">
-                                    Price: ${{ $product->variants->first()?->prices->first()?->price->value / 100 ?? 'N/A' }}
-                                </p>
-                                @else
-                                <p class="text-lg font-bold text-green-600">Price: ${{ $product->variants->first()?->prices->first()?->price->value / 100 ?? 'N/A' }}</p>
-                                @endif
-                            </div>
+                            <!-- Terméknév -->
+                            <h3>{{ $product->translateAttribute('name') }}</h3>
+
+                            <!-- Leírás -->
+                            <p>{!! $product->translateAttribute('description') !!}</p>
+
+                            <!-- Ár -->
+                            <p>
+                                Ár: ${{ $product->variants->first()?->prices->first()?->price->value / 100 ?? 'N/A' }}
+                            </p>
+
+                            <!-- Kosárba gomb -->
+                            @if($product->variants->isNotEmpty())
+                            <livewire:add-to-cart :purchasable="$product->variants->first()" :wire:key="$product->variants->first()->id">
+                            @endif
                         </li>
                         @endforeach
                     </ul>
@@ -48,12 +45,12 @@
         </div>
     </div>
 
-    <script>
+    <!-- <script>
         function updatePrice(select, productId) {
             const selectedOption = select.options[select.selectedIndex];
             const price = selectedOption.getAttribute('data-price');
             const priceElement = document.getElementById(`price-${productId}`);
             priceElement.textContent = `Price: $${price}`;
         }
-    </script>
+    </script> -->
 </x-app-layout>
