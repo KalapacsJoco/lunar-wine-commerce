@@ -99,7 +99,7 @@ class Cart extends Component
 
     public function render(): View
     {
-        return view('livewire.cart')->layout('layouts.app');
+        return view('livewire.cart');
     }
     
 }

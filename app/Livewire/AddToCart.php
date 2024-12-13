@@ -30,45 +30,56 @@ class AddToCart extends Component
 
     public function addToCart(): void
     {
-        // dd($this->purchasable);
         $this->validate();
-
+    
         if ($this->purchasable->stock < $this->quantity) {
             $this->addError('quantity', 'The quantity exceeds the available stock.');
-
             return;
         }
-        
-
-        
+    
         try {
-            // Alapértelmezett valuta lekérése
-            $currency = Currency::where('default', true)->first();
-        
-            if (!$currency) {
-                throw new \Exception('No default currency found!');
+            // Ellenőrizd az aktuális kosarat
+            $cart = CartSession::current();
+    
+            if (!$cart) {
+                // Alapértelmezett valuta lekérése
+                $currency = Currency::where('default', true)->first();
+    
+                if (!$currency) {
+                    throw new \Exception('No default currency found!');
+                }
+    
+                // Új kosár létrehozása, ha nincs
+                $cart = Cart::create([
+                    'user_id' => null, // Ha nincs felhasználó, használj null-t
+                    'currency_id' => $currency->id,
+                    'channel_id' => 1, // Győződj meg róla, hogy van érvényes csatorna
+                ]);
+    
+                // Az új kosár használata
+                CartSession::use($cart);
             }
-        
-            // Kosár létrehozása a megfelelő currency_id-vel
-            $cart = Cart::create([
-                'user_id' => null, // Ha nincs felhasználó, használj null-t
-                'currency_id' => $currency->id,
-                'channel_id' => 1, // Győződj meg róla, hogy van érvényes csatorna
-            ]);
-        
-            // CartSession használata az új kosárral
-            CartSession::use($cart);
-        
-            // Termék hozzáadása a kosárhoz
-            CartSession::manager()->add($this->purchasable, $this->quantity);
-        
-            // dd('Successfully added to cart!', $cart);
+    
+            // Ellenőrizd, hogy a termék már létezik-e a kosárban
+            $existingLine = $cart->lines->first(function ($line) {
+                return $line->purchasable_id === $this->purchasable->id;
+            });
+    
+            if ($existingLine) {
+                // Frissítsd a meglévő sor mennyiségét
+                CartSession::manager()->updateLine($existingLine->id, [
+                    'quantity' => $existingLine->quantity + $this->quantity,
+                ]);
+            } else {
+                // Új sor hozzáadása a kosárhoz
+                CartSession::manager()->add($this->purchasable, $this->quantity);
+            }
+    
         } catch (\Exception $e) {
             dd('Error adding to cart:', $e->getMessage());
         }
-        
     }
-
+    
     public function render(): View
     {
         return view('livewire.add-to-cart');
