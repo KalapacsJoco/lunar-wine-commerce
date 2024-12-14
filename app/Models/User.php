@@ -21,12 +21,7 @@ class User extends Authenticatable implements LunarUserInterface
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-        'birth_date'
-    ];
+    protected $guarded = [];
 
     /**
      * The attributes that should be hidden for serialization.

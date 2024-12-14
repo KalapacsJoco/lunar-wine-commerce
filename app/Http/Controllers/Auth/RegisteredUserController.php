@@ -3,14 +3,16 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
-use App\Services\GeolocationService; // A GeolocationService osztály használata
+use App\Services\GeolocationService; // GeolocationService for country detection
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
 use Illuminate\Validation\Rules;
-use Lunar\Models\Customer; // Lunar Customer modell
+use Lunar\Models\Customer;
+use Lunar\Models\Address;
+use Lunar\Models\Country;
 
 class RegisteredUserController extends Controller
 {
@@ -33,42 +35,77 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request, GeolocationService $geoService)
     {
-        // Felhasználó IP-címének lekérése
+        // Get user's IP address
         $userIp = $request->ip();
 
-        // Ország meghatározása az IP alapján
-        $country = $geoService->getCountryFromIp($userIp);
+        // Determine the country based on the IP
+        $country = $geoService->getCountryFromIp($userIp) ?? 'Unknown';
 
-        // Életkor meghatározása: 18 év alapértelmezett, 21 év, ha az ország USA
+        // Define minimum age based on the country
         $requiredAge = ($country === 'US') ? 21 : 18;
 
-        // Validáció a dinamikus életkor alapján
+        // Validate the registration form
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'birth_date' => ['required', 'date', "before:-{$requiredAge} years"], // Dinamikus életkor ellenőrzés
+            'phone' => ['required', 'string', 'max:255'],
+            'address_line_1' => ['required', 'string', 'max:255'],
+            'address_line_2' => ['nullable', 'string', 'max:255'],
+            'city' => ['required', 'string', 'max:255'],
+            'state' => ['required', 'string', 'max:255'],
+            'postcode' => ['required', 'string', 'max:255'],
+            'country' => ['required', 'string', 'max:255'],
+            'birth_date' => ['required', 'date', "before:-{$requiredAge} years"],
         ]);
 
-        // Létrehozunk egy új User rekordot
+        // Find the country in the Lunar countries table
+        $countryRecord = Country::where('name', $request->country)->first();
+        if (!$countryRecord) {
+            return back()->withErrors(['country' => 'The selected country is not supported.']);
+        }
+
+        // Create a new user
         $user = User::create([
-            'name' => $request->name,
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'phone' => $request->phone,
+            'address_line_1' => $request->address_line_1,
+            'address_line_2' => $request->address_line_2,
+            'city' => $request->city,
+            'state' => $request->state,
+            'postcode' => $request->postcode,
+            'country' => $request->country,
             'birth_date' => $request->birth_date,
         ]);
 
-        // Automatikusan létrehozzuk a Lunar Customer rekordot
-        Customer::create([
+        // Create a Lunar Customer record
+        $customer = Customer::create([
             'user_id' => $user->id,
-            'first_name' => $request->name,
-            'last_name' => '', // Ha nincs last_name, hagyd üresen
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
         ]);
 
-        // Esemény indítása
+        // Create a Lunar Address record
+        Address::create([
+            'customer_id' => $customer->id,
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'line_one' => $request->address_line_1,
+            'line_two' => $request->address_line_2,
+            'city' => $request->city,
+            'state' => $request->state,
+            'postcode' => $request->postcode,
+            'country_id' => $countryRecord->id, // Use the country ID from Lunar
+        ]);
+
+        // Trigger the registered event
         event(new Registered($user));
 
-        // Felhasználó bejelentkeztetése
+        // Log in the user
         Auth::login($user);
 
         return redirect(route('dashboard'));

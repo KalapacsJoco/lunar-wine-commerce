@@ -1,5 +1,7 @@
 <div class="py-12 bg-gray-50">
+
     <div class="max-w-5xl mx-auto sm:px-6 lg:px-8">
+
         <div class="bg-white shadow-lg rounded-lg p-8">
             <h2 class="text-3xl font-extrabold text-gray-800 mb-6 text-center">Your Shopping Cart</h2>
 
@@ -40,5 +42,13 @@
             <p class="text-center text-gray-600">Your cart is empty.</p>
             @endif
         </div>
+
     </div>
+    <livewire:user-details />
+
+
+
+
+
+
 </div>
