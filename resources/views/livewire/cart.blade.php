@@ -63,9 +63,8 @@
     </div>
 
     <!-- Order gomb -->
-    <div class="text-center mt-6">
-        <button class="bg-blue-600 hover:bg-blue-700 font-bold py-2 px-6 rounded-lg">
-            Order
-        </button>
-    </div>
+    <div class="w-1/2">
+    @livewire('place-order')
+</div>
+
 </div>
