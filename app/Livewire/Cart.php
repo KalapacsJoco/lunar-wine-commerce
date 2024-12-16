@@ -9,12 +9,9 @@ use Lunar\Facades\CartSession;
 
 class Cart extends Component
 {
-    /**
-     * The editable cart lines.
-     */
     public array $lines;
-
     public bool $linesVisible = false;
+    public string $total;
 
     protected $listeners = [
         'add-to-cart' => 'handleAddToCart',
@@ -30,35 +27,37 @@ class Cart extends Component
     public function mount(): void
     {
         $this->mapLines();
+        $this->calculateTotal();
     }
 
-    /**
-     * Get the current cart instance.
-     */
     public function getCartProperty()
     {
         return CartSession::current();
     }
 
-    /**
-     * Return the cart lines from the cart.
-     */
     public function getCartLinesProperty(): Collection
     {
         return $this->cart->lines ?? collect();
     }
 
-    /**
-     * Update the cart lines.
-     */
     public function updateLines(): void
     {
-        $this->validate();
-
+        $this->validate(); // Validáljuk a mennyiségeket
+    
+        // Frissítsük a kosár sorait a Livewire-ben
         CartSession::updateLines(
-            collect($this->lines)
+            collect($this->lines)->map(function ($line) {
+                return [
+                    'id' => $line['id'],
+                    'quantity' => $line['quantity'], // Frissített mennyiség
+                ];
+            })
         );
+    
+        // Sorok és teljes összeg újraszámolása
         $this->mapLines();
+        $this->calculateTotal();
+    
         $this->dispatch('cartUpdated');
     }
 
@@ -66,14 +65,9 @@ class Cart extends Component
     {
         CartSession::remove($id);
         $this->mapLines();
+        $this->calculateTotal();
     }
 
-    /**
-     * Map the cart lines.
-     *
-     * We want to map out our cart lines like this so we can
-     * add some validation rules and make them editable.
-     */
     public function mapLines(): void
     {
         $this->lines = $this->cartLines->map(function ($line) {
@@ -85,21 +79,21 @@ class Cart extends Component
                 'thumbnail' => $line->purchasable->getThumbnail()->getUrl(),
                 'option' => $line->purchasable->getOption(),
                 'options' => $line->purchasable->getOptions()->implode(' / '),
-                'sub_total' => $line->subTotal->formatted(),
-                'unit_price' => $line->unitPrice->formatted(),
+                'sub_total' => $line->subTotal->value,
+                'unit_price' => $line->unitPrice->value,
             ];
         })->toArray();
     }
 
-    public function handleAddToCart(): void
+    private function calculateTotal(): void
     {
-        $this->mapLines();
-        $this->linesVisible = true;
+        $this->total = array_reduce($this->lines, function ($carry, $line) {
+            return $carry + (($line['quantity'] * $line['unit_price']) / 100); // Total újraszámolása
+        }, 0);
     }
 
     public function render(): View
     {
         return view('livewire.cart');
     }
-    
 }
