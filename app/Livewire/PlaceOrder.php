@@ -65,7 +65,7 @@ class PlaceOrder extends Component
             $order = Order::create([
                 'user_id' => $user->id,
                 'channel_id' => $channel->id,
-                'status' => 'placed',
+                'status' => 'completed',
                 'sub_total' => $cart->subTotal->value,
                 'discount_total' => 0,
                 'shipping_total' => $cart->total->value ?? $cart->subTotal->value,
