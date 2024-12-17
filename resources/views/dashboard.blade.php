@@ -33,7 +33,7 @@
 
                             <!-- Ár -->
                             <p class="text-lg font-semibold text-green-600 mb-4">
-                                Ár: ${{ $product->variants->first()?->prices->first()?->price->value / 100 ?? 'N/A' }}
+                                Price: ${{ $product->variants->first()?->prices->first()?->price->value / 100 ?? 'N/A' }}
                             </p>
 
                             <!-- Kosárba gomb -->
@@ -52,12 +52,4 @@
     </div>
 </div>
 
-    <!-- <script>
-        function updatePrice(select, productId) {
-            const selectedOption = select.options[select.selectedIndex];
-            const price = selectedOption.getAttribute('data-price');
-            const priceElement = document.getElementById(`price-${productId}`);
-            priceElement.textContent = `Price: $${price}`;
-        }
-    </script> -->
 </x-app-layout>

@@ -13,9 +13,7 @@ class Cart extends Component
     public bool $linesVisible = false;
     public string $total;
 
-    protected $listeners = [
-        'add-to-cart' => 'handleAddToCart',
-    ];
+
 
     public function rules(): array
     {
