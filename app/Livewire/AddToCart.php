@@ -38,16 +38,11 @@ class AddToCart extends Component
         }
     
         try {
-            // Ellenőrizd az aktuális kosarat
             $cart = CartSession::current();
+            $newQuantity = $this->quantity;
     
             if (!$cart) {
-                $currency = Currency::where('default', true)->first();
-    
-                if (!$currency) {
-                    throw new \Exception('No default currency found!');
-                }
-    
+                $currency = Currency::where('default', true)->firstOrFail();
                 $cart = Cart::create([
                     'user_id' => null,
                     'currency_id' => $currency->id,
@@ -57,23 +52,24 @@ class AddToCart extends Component
                 CartSession::use($cart);
             }
     
-            // Ellenőrizd, hogy a termék már létezik-e a kosárban
-            $existingLine = $cart->lines->first(function ($line) {
-                return $line->purchasable_id === $this->purchasable->id;
-            });
+            $existingLine = $cart->lines->first(fn($line) => $line->purchasable_id === $this->purchasable->id);
     
             if ($existingLine) {
-                // Frissítsd a meglévő sor mennyiségét
-                CartSession::manager()->updateLine($existingLine->id, $existingLine->quantity + $this->quantity);
+                $newQuantity += $existingLine->quantity;
+                CartSession::manager()->updateLine($existingLine->id, $newQuantity);
             } else {
-                // Új sor hozzáadása a kosárhoz
                 CartSession::manager()->add($this->purchasable, $this->quantity);
             }
+    
+            // Kibocsátjuk az új összmennyiséget
+            $totalQuantity = $cart->lines->sum('quantity');
+            $this->dispatch('cart-updated', total: $totalQuantity);
     
         } catch (\Exception $e) {
             dd('Error adding to cart:', $e->getMessage());
         }
     }
+        
         
     public function render(): View
     {

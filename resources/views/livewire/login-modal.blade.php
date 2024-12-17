@@ -1,8 +1,8 @@
 <div x-data="{ showModal: false }">
     <!-- Login gomb -->
-    <button @click="showModal = true" class="bg-blue-500  px-4 py-2 rounded">
+    <x-primary-button @click="showModal = true" class="bg-blue-500  px-4 py-2 rounded">
         Login
-    </button>
+    </x-primary-button>
 
     <!-- Modal -->
     <div x-show="showModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
@@ -28,8 +28,8 @@
                     <label for="remember" class="text-gray-700">Remember me</label>
                 </div>
 
-                <button type="submit" class="bg-green-500  px-4 py-2 rounded">Login</button>
-                <button @click="showModal = false" class="ml-2 text-gray-500">Cancel</button>
+                <x-primary-button type="submit" class="bg-green-500  px-4 py-2 rounded">Login</x-primary-button>
+                <x-danger-button @click="showModal = false" class="ml-2 text-gray-500">Cancel</x-danger-button>
             </form>
 
             <!-- Hibaüzenet -->
