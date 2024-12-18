@@ -1,9 +1,5 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-3xl text-gray-900 leading-tight text-center">
-            {{ __('Dashboard') }}
-        </h2>
-    </x-slot>
+
 
     <div class="py-12 bg-gray-100">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -21,21 +17,25 @@
                     <!-- Termékek Grid -->
                     <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
                         @foreach ($collection->products as $product)
-                        <li class="bg-white rounded-xl shadow-md  transform transition duration-500 hover:scale-105 hover:shadow-2xl">
+                        <li class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 transform transition duration-500 hover:scale-105 hover:shadow-2xl">
                             <!-- Termékkép -->
-                            <img class="w-full h-56 object-cover" 
-                                 src="{{ asset($product->image_path) }}" 
-                                 alt="{{ $product->translateAttribute('name') }}">
+                            <a href="#">
+                                <img class="w-full h-56 object-cover rounded-t-lg"
+                                    src="{{ asset($product->image_path) }}"
+                                    alt="{{ $product->translateAttribute('name') }}">
+                            </a>
 
                             <!-- Tartalom -->
-                            <div class="p-6 space-y-4">
+                            <div class="p-5 space-y-4">
                                 <!-- Terméknév -->
-                                <h3 class="text-2xl font-bold text-gray-800 truncate">
-                                    {{ $product->translateAttribute('name') }}
-                                </h3>
+                                <a href="#">
+                                    <h3 class="text-2xl font-bold tracking-tight text-gray-900 dark:text-white truncate">
+                                        {{ $product->translateAttribute('name') }}
+                                    </h3>
+                                </a>
 
                                 <!-- Leírás -->
-                                <p class="text-gray-600 text-sm line-clamp-3">
+                                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400 line-clamp-3">
                                     {!! $product->translateAttribute('description') !!}
                                 </p>
 
@@ -48,16 +48,16 @@
                                 @if ($product->variants->isNotEmpty())
                                 <div class="text-center mt-4">
                                     @if (Auth::check())
-                                        <!-- Csak bejelentkezett felhasználóknak -->
-                                        <livewire:add-to-cart 
-                                            :purchasable="$product->variants->first()" 
-                                            :wire:key="$product->variants->first()->id" />
+                                    <!-- Csak bejelentkezett felhasználóknak -->
+                                    <livewire:add-to-cart
+                                        :purchasable="$product->variants->first()"
+                                        :wire:key="$product->variants->first()->id" />
                                     @else
-                                        <!-- Ha nincs bejelentkezve -->
-                                        <a href="{{ route('login') }}"
-                                           class="inline-block text-white bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 px-5 py-2 rounded-lg shadow-md transition duration-300">
-                                            Login to Add to Cart
-                                        </a>
+                                    <!-- Ha nincs bejelentkezve -->
+                                    <a href="{{ route('login') }}"
+                                        class="inline-flex items-center px-5 py-2 text-sm font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 transition duration-300">
+                                        Login to Add to Cart
+                                    </a>
                                     @endif
                                 </div>
                                 @endif
