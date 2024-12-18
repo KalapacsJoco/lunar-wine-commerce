@@ -1,8 +1,8 @@
 <div class="text-center mt-8">
-    <button wire:click="placeOrder"
+    <x-primary-button wire:click="placeOrder"
             class="bg-blue-600 hover:bg-blue-700 font-semibold py-2 px-6 rounded-lg">
         Order
-    </button>
+    </x-primary-button>
 
     @if (session()->has('success'))
         <div class="mt-4 text-green-600">

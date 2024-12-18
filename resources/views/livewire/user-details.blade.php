@@ -9,5 +9,6 @@
     <p><strong>State:</strong> {{ $user->state }}</p>
     <p><strong>Postcode:</strong> {{ $user->postcode }}</p>
     <p><strong>Country:</strong> {{ $user->country }}</p>
-</div>
+    <livewire:edit-user-details :user="$user" />
+    </div>
 
