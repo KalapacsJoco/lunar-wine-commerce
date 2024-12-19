@@ -58,4 +58,6 @@ class SupplierResource extends Resource
             'edit' => Pages\EditSupplier::route('/{record}/edit'),
         ];
     }
+
+    
 }

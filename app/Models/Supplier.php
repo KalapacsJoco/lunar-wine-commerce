@@ -12,4 +12,9 @@ class Supplier extends Model
     protected $table = 'lunar_suppliers';
 
     protected $fillable = ['name', 'contact_email', 'phone', 'address', 'tax_id', 'region', 'website'];
+
+    public function products()
+    {
+        return $this->hasMany(\Lunar\Models\Product::class, 'supplier_id');
+    }
 }
