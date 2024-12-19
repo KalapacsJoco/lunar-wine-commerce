@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Filament\Resources\SupplierResource;
 use App\Filament\Resources\UserResource;
 use App\Observers\ProductObserver;
 use Illuminate\Support\ServiceProvider;
@@ -17,7 +18,13 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         // LunarPanelManager regisztráció
-        (new LunarPanelManager)->register();
+        // (new LunarPanelManager)->register();
+
+        LunarPanel::panel(function ($panel) {
+            return $panel->resources([
+                SupplierResource::class,
+            ]);
+        })->register();
     }
 
     /**
@@ -27,11 +34,11 @@ class AppServiceProvider extends ServiceProvider
 
      public function boot()
      {
-         LunarPanel::panel(fn($panel) => $panel
-             ->resources([
-                 UserResource::class,
-             ]))
-             ->register();
+        //  LunarPanel::panel(fn($panel) => $panel
+        //      ->resources([
+        //          UserResource::class,
+        //      ]))
+        //      ->register();
      }
     
 }
