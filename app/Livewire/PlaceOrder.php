@@ -62,6 +62,8 @@ class PlaceOrder extends Component
 
             $currencyCode = $this->cart->currency->code ?? 'USD';
 
+            $placedAt = now();
+
             $order = Order::create([
                 'user_id' => $user->id,
                 'channel_id' => $channel->id,
@@ -74,6 +76,7 @@ class PlaceOrder extends Component
                 'total' => $cart->subTotal->value + $taxAmount,
                 'customer_id' => $user->customer->id, // Lunar customer ID
                 'currency_code' => $currencyCode,
+                'placed_at' => $placedAt,
             ]);
 
 
@@ -84,6 +87,8 @@ class PlaceOrder extends Component
                 if (!isset($line->purchasable) || !isset($line->purchasable->product)) {
                     throw new \Exception('Invalid purchasable item in cart line.');
                 }
+
+
 
                 // dd($line->purchasable->prices()->first()->price->value);
 
@@ -111,6 +116,13 @@ class PlaceOrder extends Component
                     'total' => $subTotal + $taxTotal, // Végösszeg
                     'meta' => json_encode([]),
                 ]);
+
+                // Készlet frissítése
+                $variant = $line->purchasable; // Lunar Product Variant
+                if ($variant) {
+                    $newStock = max(0, $variant->stock - $quantity);
+                    $variant->update(['stock' => $newStock]);
+                }
             }
 
 
