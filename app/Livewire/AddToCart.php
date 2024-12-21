@@ -21,6 +21,8 @@ class AddToCart extends Component
      */
     public int $quantity = 1;
 
+    
+
     public function rules(): array
     {
         return [

@@ -44,14 +44,22 @@
                                     Price: ${{ $product->variants->first()?->prices->first()?->price->value / 100 ?? 'N/A' }}
                                 </p>
 
+
                                 <!-- Kosárba gomb -->
                                 @if ($product->variants->isNotEmpty())
                                 <div class="text-center mt-4">
                                     @if (Auth::check())
                                     <!-- Csak bejelentkezett felhasználóknak -->
+
+
+                                   
                                     <livewire:add-to-cart
+                                        :product="$product"
                                         :purchasable="$product->variants->first()"
                                         :wire:key="$product->variants->first()->id" />
+                                  
+
+
                                     @else
                                     <!-- Ha nincs bejelentkezve -->
                                     <a href="{{ route('login') }}"
