@@ -8,6 +8,7 @@
                     Explore Our Exclusive Wine Collection
                 </h1>
 
+
                 @foreach ($collections as $collection)
                 <div class="mb-16">
                     <h2 class="text-3xl font-bold text-gray-700 mb-8 pb-3 border-b-2 border-gray-300">
