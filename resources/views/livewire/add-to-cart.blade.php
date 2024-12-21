@@ -9,6 +9,7 @@
     <input
         type="number"
         x-model="quantity"
+        wire:model="quantity"
         min="1"
         class="border rounded p-2"
         @input="error = (quantity > stock) ? 'The quantity exceeds available stock (' + stock + ' items)' : ''" />
