@@ -9,6 +9,13 @@ class SearchBar extends Component
 {
     public $query = '';
     public $results = [];
+    public $selectedProduct = null;
+
+    public function selectProduct($productId)
+    {
+        $this->selectedProduct = Product::findOrFail($productId);
+    }
+
 
     public function updatedQuery()
     {
@@ -16,16 +23,15 @@ class SearchBar extends Component
             $this->results = [];
             return;
         }
-        
+
         // dd(Product::first()->attribute_data);
         // dd($product->attribute_data['name']);
 
 
 
         $this->results = Product::where('attribute_data->name->value->en', 'like', "%{$this->query}%")
-        ->take(10)
-        ->get();
-    
+            ->take(10)
+            ->get();
     }
 
     public function render()

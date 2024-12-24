@@ -7,7 +7,10 @@
             </span>
         </a>
 
-        <livewire:search-bar />
+        <div class="navbar">
+
+
+
 
 
         <!-- Mobile Menu Button -->

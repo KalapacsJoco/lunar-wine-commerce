@@ -1,7 +1,9 @@
 <x-app-layout>
     <div class="py-12 bg-gray-100">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white shadow-2xl rounded-2xl p-8">
+            <div id="results"        
+            class="bg-white shadow-2xl rounded-2xl p-8">
+            <livewire:search-bar />
                 <h1 class="text-5xl font-extrabold text-gray-800 mb-12 text-center tracking-tight">
                     Explore Our Exclusive Wine Collection
                 </h1>
