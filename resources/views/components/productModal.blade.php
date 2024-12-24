@@ -1,4 +1,5 @@
 <!-- Modal -->
+ <template x-teleport="body">
  <div class="flex items-center justify-center">
 <div x-show="open" x-cloak class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50">
     <div class="bg-white rounded-lg shadow-lg w-screen h-screen p-6 relative">
@@ -44,3 +45,4 @@
     </div>
 </div>
 </div>
+</template>
