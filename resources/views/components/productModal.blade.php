@@ -1,6 +1,7 @@
 <!-- Modal -->
 <template x-teleport="body">
     <div
+
         x-show="open"
         x-cloak
 

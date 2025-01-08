@@ -3,8 +3,8 @@
 namespace App\Filament\Resources\SupplierResource\Pages;
 
 use App\Filament\Resources\SupplierResource;
-use App\Filament\Widgets\SuppliersOverview;
 use App\Livewire\SuppliersOverview as LivewireSuppliersOverview;
+use App\Livewire\LowStockAlert as LivewireLowStockAlert;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 
@@ -22,7 +22,8 @@ class ListSuppliers extends ListRecords
     protected function getHeaderWidgets(): array
     {
         return [
-            LivewireSuppliersOverview::class
+            LivewireSuppliersOverview::class,
+            LivewireLowStockAlert::class
         ];
     }
 }

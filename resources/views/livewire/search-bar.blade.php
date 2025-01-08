@@ -12,6 +12,7 @@
                 <li 
                     class="p-2 border-b cursor-pointer"
                     wire:click="selectProduct({{ $product->id }})"
+                    wire:key="selectProduct({{ $product->id }})"
                 >
                     {{ $product->translateAttribute('name') ?? 'No name available' }}
                 </li>
